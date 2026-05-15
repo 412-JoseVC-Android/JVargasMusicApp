@@ -2,61 +2,70 @@ package com.example.jvargasmusicapp.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.jvargasmusicapp.data.model.Album
 
 @Composable
-fun RecentAlbumItem(
-    album: Album,
-    onClick: () -> Unit
-) {
+fun MiniPlayer() {
 
-    Card(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        shape = RoundedCornerShape(20.dp),
-        onClick = onClick
+            .background(
+                Color(0xFF191919),
+                RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+            )
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Row(
+        Box(
             modifier = Modifier
-                .background(Color.White)
-                .padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .size(55.dp)
+                .background(
+                    Color(0xFF7E57C2),
+                    RoundedCornerShape(14.dp)
+                )
+        )
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Column(
+            modifier = Modifier.weight(1f)
         ) {
 
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(
-                        Color(0xFFB39DDB),
-                        RoundedCornerShape(16.dp)
-                    )
+            Text(
+                text = "After Hours",
+                color = Color.White
             )
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = "The Weeknd",
+                color = Color.LightGray
+            )
+        }
 
-            Column {
+        IconButton(
+            onClick = {},
+            modifier = Modifier
+                .background(Color.White, CircleShape)
+        ) {
 
-                Text(
-                    text = album.title,
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text = album.artist,
-                    color = Color.Gray
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.PlayArrow,
+                contentDescription = null,
+                tint = Color.Black
+            )
         }
     }
 }

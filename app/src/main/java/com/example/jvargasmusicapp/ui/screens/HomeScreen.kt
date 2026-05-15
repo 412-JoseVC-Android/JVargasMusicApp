@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.jvargasmusicapp.data.model.sampleAlbums
 import com.example.jvargasmusicapp.ui.components.AlbumCard
-import com.example.jvargasmusicapp.ui.components.MiniPlayer
+import com.example.jvargasmusicapp.ui.components.M
 import com.example.jvargasmusicapp.ui.components.RecentAlbumItem
 
 @Composable
