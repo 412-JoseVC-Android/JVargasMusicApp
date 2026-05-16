@@ -16,45 +16,50 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.jvargasmusicapp.data.model.Album
 
 @Composable
-fun MiniPlayer() {
+fun MiniPlayer(album: Album?) {
+    if (album == null) return
 
     Row(
         modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 20.dp) // Despegado del borde
             .fillMaxWidth()
             .background(
                 Color(0xFF1A1A1A),
-                RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+                RoundedCornerShape(20.dp)
             )
-            .padding(16.dp),
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         AsyncImage(
-            model = "https://i.scdn.co/image/ab67616d0000b273c6f7af36ecdc6f7866f9c9c7",
+            model = album.image,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(58.dp)
-                .clip(RoundedCornerShape(16.dp))
+                .size(48.dp)
+                .clip(RoundedCornerShape(12.dp))
         )
 
-        Spacer(modifier = Modifier.width(14.dp))
+        Spacer(modifier = Modifier.width(12.dp))
 
         Column(
             modifier = Modifier.weight(1f)
         ) {
-
             Text(
-                text = "After Hours",
-                color = Color.White
+                text = album.title,
+                color = Color.White,
+                fontSize = 14.sp,
+                maxLines = 1
             )
-
             Text(
-                text = "The Weeknd",
-                color = Color.LightGray
+                text = album.artist,
+                color = Color.LightGray,
+                fontSize = 12.sp,
+                maxLines = 1
             )
         }
 
@@ -62,13 +67,13 @@ fun MiniPlayer() {
             onClick = {},
             modifier = Modifier
                 .background(Color.White, CircleShape)
-                .size(48.dp)
+                .size(36.dp)
         ) {
-
             Icon(
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = null,
-                tint = Color.Black
+                tint = Color.Black,
+                modifier = Modifier.size(24.dp)
             )
         }
     }

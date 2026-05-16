@@ -7,7 +7,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.BrokenImage
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material3.*
@@ -18,13 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.jvargasmusicapp.ui.components.MiniPlayer
 import com.example.jvargasmusicapp.viewmodel.DetailViewModel
 
@@ -35,6 +40,8 @@ fun DetailScreen(
     viewModel: DetailViewModel = viewModel()
 ) {
     val album = viewModel.album
+    val context = LocalContext.current
+    val errorPainter = rememberVectorPainter(Icons.Default.BrokenImage)
 
     LaunchedEffect(albumId) {
         viewModel.getAlbum(albumId)
@@ -68,10 +75,15 @@ fun DetailScreen(
                                 .height(400.dp)
                         ) {
                             AsyncImage(
-                                model = album.image,
+                                model = ImageRequest.Builder(context)
+                                    .data(album.image.trim())
+                                    .addHeader("User-Agent", "Mozilla/5.0")
+                                    .crossfade(true)
+                                    .build(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier.fillMaxSize().background(Color(0xFF1A1A1A)),
+                                error = errorPainter
                             )
 
                             // Purple Scrim
@@ -89,18 +101,38 @@ fun DetailScreen(
                                     )
                             )
 
-                            // Back Button
-                            IconButton(
-                                onClick = { navController.popBackStack() },
+                            // Top Buttons Row
+                            Row(
                                 modifier = Modifier
-                                    .padding(top = 48.dp, start = 16.dp)
-                                    .background(Color.Black.copy(alpha = 0.5f), CircleShape)
+                                    .fillMaxWidth()
+                                    .padding(top = 48.dp, start = 16.dp, end = 16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Icon(
-                                    imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = "Back",
-                                    tint = Color.White
-                                )
+                                // Back Button
+                                IconButton(
+                                    onClick = { navController.popBackStack() },
+                                    modifier = Modifier
+                                        .background(Color.Black.copy(alpha = 0.5f), CircleShape)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back",
+                                        tint = Color.White
+                                    )
+                                }
+
+                                // Wishlist Button (Heart)
+                                IconButton(
+                                    onClick = { /* Wishlist logic */ },
+                                    modifier = Modifier
+                                        .background(Color.Black.copy(alpha = 0.5f), CircleShape)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.FavoriteBorder,
+                                        contentDescription = "Wishlist",
+                                        tint = Color.White
+                                    )
+                                }
                             }
 
                             // Title and Artist
@@ -207,12 +239,18 @@ fun DetailScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             AsyncImage(
-                                model = album.image,
+                                model = ImageRequest.Builder(context)
+                                    .data(album.image.trim())
+                                    .addHeader("User-Agent", "Mozilla/5.0")
+                                    .crossfade(true)
+                                    .build(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .size(50.dp)
                                     .clip(RoundedCornerShape(8.dp))
+                                    .background(Color(0xFF1A1A1A)),
+                                error = errorPainter
                             )
                             Spacer(modifier = Modifier.width(16.dp))
                             Column {
@@ -234,7 +272,7 @@ fun DetailScreen(
                         Spacer(modifier = Modifier.height(100.dp))
                     }
                 }
-                MiniPlayer()
+                MiniPlayer(album = album)
             }
         }
     }

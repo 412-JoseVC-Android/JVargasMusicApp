@@ -50,26 +50,30 @@ fun HomeScreen(
                     start = 20.dp,
                     end = 20.dp,
                     top = 60.dp,
-                    bottom = 120.dp
+                    bottom = 20.dp
                 )
             ) {
                 item {
-                    Text(
-                        text = "Good Evening",
-                        color = Color.LightGray,
-                        fontSize = 14.sp
-                    )
+                    // Header Section with distinct styling
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 36.dp)
+                    ) {
+                        Text(
+                            text = "Good Evening",
+                            color = Color(0xFFB39DDB), // Light purple for distinction
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Normal
+                        )
 
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = "Jose Vargas",
-                        color = Color.White,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-
-                    Spacer(modifier = Modifier.height(36.dp))
+                        Text(
+                            text = "Jose Vargas",
+                            color = Color.White,
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                    }
 
                     if (viewModel.isLoading) {
                         Box(
@@ -85,17 +89,30 @@ fun HomeScreen(
                             modifier = Modifier.padding(vertical = 16.dp)
                         )
                     } else {
-                        Text(
-                            text = "Albums",
-                            color = Color.White,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        // Albums Section Header with "See more"
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Albums",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "See more",
+                                color = Color(0xFFB39DDB),
+                                fontSize = 14.sp
+                            )
+                        }
 
                         Spacer(modifier = Modifier.height(18.dp))
 
                         LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(18.dp)
+                            horizontalArrangement = Arrangement.spacedBy(18.dp),
+                            contentPadding = PaddingValues(bottom = 36.dp)
                         ) {
                             items(albums) { album ->
                                 AlbumCard(
@@ -105,14 +122,24 @@ fun HomeScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(36.dp))
-
-                        Text(
-                            text = "Recently Played",
-                            color = Color.White,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        // Recently Played Header with "See more"
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Recently Played",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "See more",
+                                color = Color(0xFFB39DDB),
+                                fontSize = 14.sp
+                            )
+                        }
 
                         Spacer(modifier = Modifier.height(14.dp))
                     }
@@ -125,10 +152,16 @@ fun HomeScreen(
                             onClick = { onAlbumClick(album.id) }
                         )
                     }
+                    
+                    // Extra space at bottom of list to not be covered by mini player
+                    item {
+                        Spacer(modifier = Modifier.height(100.dp))
+                    }
                 }
             }
 
-            MiniPlayer()
+            // Pass the first album to the MiniPlayer
+            MiniPlayer(album = albums.firstOrNull())
         }
     }
 }
