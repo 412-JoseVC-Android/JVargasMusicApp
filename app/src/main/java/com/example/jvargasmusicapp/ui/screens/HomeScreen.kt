@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.jvargasmusicapp.data.model.sampleAlbums
 import com.example.jvargasmusicapp.ui.components.AlbumCard
-import com.example.jvargasmusicapp.ui.components.M
+import com.example.jvargasmusicapp.ui.components.MiniPlayer
 import com.example.jvargasmusicapp.ui.components.RecentAlbumItem
 
 @Composable
@@ -29,8 +29,9 @@ fun HomeScreen(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(0xFF6A1B9A),
-                        Color(0xFF0F0F1A)
+                        Color(0xFF5B1E8B),
+                        Color(0xFF0D0D16),
+                        Color(0xFF090909)
                     )
                 )
             )
@@ -42,17 +43,22 @@ fun HomeScreen(
 
             LazyColumn(
                 modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(20.dp)
+                contentPadding = PaddingValues(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 60.dp,
+                    bottom = 120.dp
+                )
             ) {
 
                 item {
-
-                    Spacer(modifier = Modifier.height(40.dp))
 
                     Text(
                         text = "Good Evening",
                         color = Color.LightGray
                     )
+
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
                         text = "Jose Vargas",
@@ -60,7 +66,7 @@ fun HomeScreen(
                         fontWeight = FontWeight.Bold
                     )
 
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(36.dp))
 
                     Text(
                         text = "Albums",
@@ -68,13 +74,13 @@ fun HomeScreen(
                         fontWeight = FontWeight.Bold
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(18.dp))
                 }
 
                 item {
 
                     LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        horizontalArrangement = Arrangement.spacedBy(18.dp)
                     ) {
 
                         items(sampleAlbums) { album ->
@@ -88,7 +94,7 @@ fun HomeScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(36.dp))
                 }
 
                 item {
@@ -99,7 +105,7 @@ fun HomeScreen(
                         fontWeight = FontWeight.Bold
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(14.dp))
                 }
 
                 items(sampleAlbums) { album ->
@@ -110,10 +116,6 @@ fun HomeScreen(
                             navController.navigate("detail/${album.id}")
                         }
                     )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(100.dp))
                 }
             }
 
